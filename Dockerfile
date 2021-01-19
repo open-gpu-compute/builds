@@ -9,12 +9,14 @@
 
 # If it is desired to run the container manually through the docker command-line, the following is an example
 # 'docker run -it --rm -v [host/directory]:[container/directory]:ro <user-name>/<project-name>'.
-
-FROM ubuntu:18.04
+FROM  nvidia/cuda:10.0-devel-ubuntu18.04
 MAINTAINER Michael Wootton <michael.wootton@amd>
 
 # Initialize the image
 # Modify to pre-install dev tools and ROCm packages
+RUN apt-get update
+RUN apt-get install  -y --no-install-recommends software-properties-common 
+RUN apt-add-repository universe
 RUN apt-get update && apt-get install -y gnupg2
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends curl && \
   curl -sL http://repo.radeon.com/rocm/apt/debian/rocm.gpg.key | apt-key add - && \
@@ -65,9 +67,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   hipsparse && \
   curl -sL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
   sh -c 'echo deb [arch=amd64] http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main > /etc/apt/sources.list.d/llvm7.list' && \
-  sh -c 'echo deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main >> /etc/apt/sources.list.d/llvm7.list' && \
-  apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-  clang-7 && \
+  sh -c 'echo deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-7 main >> /etc/apt/sources.list.d/llvm7.list' 
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  clang && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
@@ -129,9 +131,6 @@ RUN \
 RUN \
   pip3 install hypothesis
 
-RUN \
-  update-alternatives --install /usr/bin/gcc gcc /usr/bin/clang-7 50 && \
-  update-alternatives --install /usr/bin/g++ g++ /usr/bin/clang++-7 50
 
 #RUN \
 #  git clone https://github.com/pytorch/vision.git 
