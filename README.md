@@ -1,5 +1,10 @@
 ## Open GC Dockerfiles
 
+
+0. Clone the repository
+```
+git clone https://github.com/open-gpu-compute/builds.git
+```
 1. Build the Docker image using the command `docker build -t opengc .`
 2. Run the container using the command 
 ```
@@ -22,9 +27,9 @@ Blocks In Grid    = 4096
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
-$ hipify-perl vector_add.cu > vector_add.cu.hip
-$ hipcc vector_add.cu.hip -o vector_add.cu.hip.out
-$ ./vector_add.cu.hip.out
+# hipify-perl vector_add.cu > vector_add.cu.hip
+# hipcc vector_add.cu.hip -o vector_add.cu.hip.out
+# ./vector_add.cu.hip.out
 Time taken for addition : 1108 microseconds
 
 ---------------------------
