@@ -35,6 +35,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   gdb \
   git \
   less \
+  kmod \
   libunwind-dev \
   libfftw3-dev \
   libelf-dev \
@@ -93,7 +94,7 @@ RUN sed -i 's/find_dependency(hip)/find_dependency(HIP)/g' /opt/rocm/rocblas/lib
 #USER rocm-user
 #WORKDIR /home/rocm-user
 WORKDIR /root
-ENV PATH="${PATH}:/opt/rocm/bin" HIP_PLATFORM="hcc"
+ENV PATH="${PATH}:/opt/rocm/bin"
 
 #RUN \
 #  curl -O https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh && \
