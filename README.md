@@ -5,7 +5,10 @@
 ```
 git clone https://github.com/open-gpu-compute/builds.git
 ```
-1. Build the Docker image using the command `docker build -t opengc .`
+1. Build the Docker image using the command
+```
+docker build -t opengc .
+```
 2. Run the container using the command 
 ```
 docker run -it -v $(pwd)/src:/data/src --privileged --rm  --group-add video all opengc
