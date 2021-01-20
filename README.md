@@ -31,8 +31,8 @@ Blocks In Grid    = 4096
 4. (Optional, For nvidia GPUS) Compile `src/vector_add.cu` inside the docker container using the following command:
 ```
 # cd /data/src
-# nvcc vector_add.cu -o  vector_add
-# ./vector_add
+# nvcc vector_add.cu -o  vector_add.cu.out
+# ./vector_add.cu.out
 Time taken for addition : 30 microseconds
 
 ---------------------------
