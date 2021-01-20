@@ -12,8 +12,8 @@ docker run -it -v $(pwd)/src:/data/src --privileged --rm  --group-add video all 
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
-# EXPORT HIP_PLATFORM=nvcc # for nvidia gpus
-# EXPORT HIP_PLATFORM=hcc # for AMD gpus
+# export HIP_PLATFORM=nvcc # for nvidia gpus
+# export HIP_PLATFORM=hcc # for AMD gpus
 # cd /data/src
 # hipify-perl vector_add.cu > vector_add.hip.cu
 # hipcc vector_add.hip.cu -o vector_add.hip.cu.out
