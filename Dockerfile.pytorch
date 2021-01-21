@@ -1,0 +1,40 @@
+FROM opengc
+RUN apt-get update && yes|apt-get upgrade
+RUN apt-get install -y emacs
+
+# Adding wget and bzip2
+RUN apt-get install -y wget bzip2
+
+# Add sudo
+RUN apt-get -y install sudo
+
+# Add user ubuntu with no password, add to sudo group
+
+#RUN echo `pwd`
+
+# Anaconda installing
+RUN wget https://repo.anaconda.com/archive/Anaconda3-2020.11-Linux-x86_64.sh
+RUN bash Anaconda3-2020.11-Linux-x86_64.sh -b && \
+    echo "export PATH="/root/anaconda3/bin:$PATH"" >> ~/.bashrc && \
+    /bin/bash -c "source ~/.bashrc"
+ENV PATH /root/anaconda3/bin:$PATH
+RUN export PATH="/root/anaconda3/bin:$PATH"
+RUN conda update --all
+RUN rm Anaconda3-2020.11-Linux-x86_64.sh
+
+
+RUN conda install numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
+RUN conda install -c pytorch magma-cuda100
+
+# Installing Pytorch
+RUN git clone --recursive https://github.com/pytorch/pytorch
+WORKDIR /root/pytorch
+# if you are updating an existing checkout
+RUN git submodule sync
+RUN git submodule update --init --recursive
+RUN conda init bash
+
+ENV CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
+RUN USE_ROCM=OFF python3 setup.py install
+RUN apt-get update && yes|apt-get upgrade
+## ADD benchmark Torch vision
