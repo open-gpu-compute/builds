@@ -11,7 +11,7 @@ docker build -t opengc .
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd)/src:/data/src --privileged --rm  --group-add video all opengc
+docker run -it -v $(pwd)/src:/data/src --privileged --rm  --group-add video --gpus all opengc
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
@@ -46,3 +46,31 @@ Threads Per Block = 256
 Blocks In Grid    = 4096
 ---------------------------
 ```
+
+## Installing Pytorch 
+
+0. Clone the repository
+```
+git clone https://github.com/open-gpu-compute/builds.git
+```
+1. Build the image Dockerfile.anaconda . This image clones pytorch and install all the dependencies. 
+```
+docker build -t rocm_torch .
+```
+2. Run the container using the command 
+```
+docker run -it -v $(pwd):/data --privileged --rm  --group-add video --gpus all rocm_torch
+```
+3. Inside the docker run the following command 
+```
+export HIP_PLATFORM=nvcc
+```
+4. Hipify the repository
+```
+python tools/amd_build/build_amd.py
+```
+5. Run the command to install torch
+```
+RCCL_DIR=/opt/rocm/rccl/lib/cmake/rccl/ hip_DIR=/opt/rocm/hip/cmake/  BUILD_CAFFE2_OPS=0 PATH=/usr/lib/ccache/:$PATH USE_CUDA=OFF python3 setup.py install
+```
+

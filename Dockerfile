@@ -73,6 +73,12 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   clang && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+WORKDIR /root
+RUN git clone https://github.com/ROCmSoftwarePlatform/rccl.git
+WORKDIR /root/rccl
+RUN ./install.sh -i
+
+WORKDIR /root
 
 # fix capitalization in some cmake files...
 RUN sed -i 's/find_dependency(hip)/find_dependency(HIP)/g' /opt/rocm/rocsparse/lib/cmake/rocsparse/rocsparse-config.cmake

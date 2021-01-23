@@ -32,12 +32,3 @@ RUN git submodule update --init --recursive
 RUN conda init bash
 
 ENV CMAKE_PREFIX_PATH=${CONDA_PREFIX:-"$(dirname $(which conda))/../"}
-RUN USE_ROCM=OFF python3 setup.py install
-RUN apt-get update 
-## ADD benchmark Torch vision
-WORKDIR /root
-RUN git clone https://github.com/pytorch/vision.git
-WORKDIR /root/vision
-RUN python3 setup.py install
-
-WORKDIR /root
