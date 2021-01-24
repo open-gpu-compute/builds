@@ -11,7 +11,7 @@ docker build -t opengc/opengc .
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd)/src:/data/src --privileged --rm  --group-add video --gpus all opengc/opengc
+docker run -it -v $(pwd)/src:/data/src --rm opengc/opengc
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
@@ -59,7 +59,7 @@ docker build -f Dockerfile.pytorch -t opengc/pytorch .
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd):/data --privileged --rm  --group-add video --gpus all opengc/pytorch
+docker run -it --privileged --rm opengc/pytorch
 ```
 3. Inside the docker run the following command 
 ```
