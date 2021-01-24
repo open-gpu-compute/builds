@@ -11,7 +11,7 @@ docker build -t opengc/opengc .
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd)/src:/data/src --rm opengc/opengc
+docker run -it --privileged -v $(pwd)/src:/data/src --rm opengc/opengc
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
