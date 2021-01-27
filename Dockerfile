@@ -24,6 +24,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   sudo \
   libelf1 \
+  python \
   build-essential \
   bzip2 \
   ca-certificates \
@@ -73,6 +74,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
   clang && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
+
+
 WORKDIR /root
 RUN git clone https://github.com/ROCmSoftwarePlatform/rccl.git
 WORKDIR /root/rccl
@@ -137,6 +140,9 @@ RUN \
 
 RUN \
   pip3 install hypothesis
+
+RUN pip3 install numpy ninja pyyaml mkl mkl-include setuptools cmake cffi typing_extensions future six requests dataclasses
+RUN apt-get update
 
 
 #RUN \
