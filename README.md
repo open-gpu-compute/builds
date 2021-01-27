@@ -7,11 +7,11 @@ git clone https://github.com/open-gpu-compute/builds.git
 ```
 1. Build the Docker image using the command
 ```
-docker build -t opengc .
+docker build -t opengc/opengc .
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd)/src:/data/src --privileged --rm  --group-add video --gpus all opengc
+docker run -it --privileged -v $(pwd)/src:/data/src --rm opengc/opengc
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
@@ -57,9 +57,14 @@ git clone https://github.com/open-gpu-compute/builds.git
 ```
 docker build -t opengc .
 ```
+you can also pull the docker image using the command 
+```
+docker pull opengc/opengc
+```
 2. Run the container using the command 
 ```
 docker run -it -v $(pwd):/data --privileged --rm  --group-add video  opengc
+
 ```
 3. Inside the docker run the following command 
 ```
