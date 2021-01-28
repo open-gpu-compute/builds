@@ -47,7 +47,7 @@ Blocks In Grid    = 4096
 ---------------------------
 ```
 
-## Installing Pytorch on AMD 
+## Installing Pytorch on AMD/GPU using ROCM
 
 0. Clone the repository
 ```
@@ -78,6 +78,11 @@ git submodule update --init --recursive
 ```
 python tools/amd_build/build_amd.py
 ```
+If compiling on NVIDIA GPU, run the following command
+ ```
+ export HIP_PLATFORM=nvcc
+ ```
+
 5. Run the command to install torch
 ```
 RCCL_DIR=/opt/rocm/rccl/lib/cmake/rccl/ hip_DIR=/opt/rocm/hip/cmake/  BUILD_CAFFE2_OPS=0 PATH=/usr/lib/ccache/:$PATH USE_CUDA=OFF python3 setup.py install
