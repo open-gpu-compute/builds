@@ -55,7 +55,7 @@ git clone https://github.com/open-gpu-compute/builds.git
 ```
 1. Build the image using Dockerfile. This image  install all the dependencies. 
 ```
-docker build -t opengc .
+docker build -t opengc/opengc .
 ```
 you can also pull the docker image using the command 
 ```
@@ -63,7 +63,7 @@ docker pull opengc/opengc
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd):/data --privileged --rm  --group-add video  opengc
+docker run -it --privileged --rm  --group-add video  opengc/opengc
 
 ```
 3. Inside the docker run the following command 
@@ -101,7 +101,7 @@ docker build -t opengc_benchmark_cuda .
 ```
 2. Run the docker using the command 
 ```
-docker run -it -v $(pwd):/data --privileged --rm  --group-add video --shm-size=2gb  --ipc=host --gpus all opengc_benchmark_cuda
+docker run -it --privileged --rm  --group-add video --shm-size=2gb  --ipc=host --gpus all opengc_benchmark_cuda
 ```
 3. Clone the Gpu benchmark repository inside the docker container.
 ```
