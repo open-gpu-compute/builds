@@ -1,0 +1,14 @@
+benchmark start : 2021/01/27 16:04:14
+system_configs
+
+uname_result(system='Linux', node='bfbbcb240254', release='4.4.0-197-generic', version='#229-Ubuntu SMP Wed Nov 25 11:05:42 UTC 2020', machine='x86_64', processor='x86_64')
+                     scpufreq(current=2023.3577249999998, min=1200.0, max=3600.0)
+                    cpu_count: 40
+                    memory_available: 33675132928
+gpu_configs
+
+Number of GPUs on current device : 1
+CUDA Version : 10.0
+Cudnn Version : None
+Device Name : GeForce GTX TITAN X
+benchmark end : 2021/01/27 16:27:31
