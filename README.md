@@ -11,7 +11,7 @@ docker build -t opengc/opengc .
 ```
 2. Run the container using the command 
 ```
-docker run -it -v $(pwd)/src:/data/src --rm opengc/opengc
+docker run -it --privileged -v $(pwd)/src:/data/src --rm opengc/opengc
 ```
 4. Hipify `src/vector_add.cu` and compile it using the following command
 ```
@@ -47,30 +47,67 @@ Blocks In Grid    = 4096
 ---------------------------
 ```
 
-## Installing Pytorch 
+## Installing Pytorch on AMD/NVIDIA using ROCM
 
 0. Clone the repository
 ```
 git clone https://github.com/open-gpu-compute/builds.git
 ```
-1. Build the image Dockerfile.anaconda . This image clones pytorch and install all the dependencies. 
+1. Build the image using Dockerfile. This image  install all the dependencies. 
 ```
-docker build -f Dockerfile.pytorch -t opengc/pytorch .
+docker build -t opengc/opengc .
+```
+you can also pull the docker image using the command 
+```
+docker pull opengc/opengc
 ```
 2. Run the container using the command 
 ```
-docker run -it --privileged --rm opengc/pytorch
+docker run -it --privileged --rm  --group-add video  opengc/opengc
+
 ```
 3. Inside the docker run the following command 
 ```
-export HIP_PLATFORM=nvcc
+git clone --recursive https://github.com/ROCmSoftwarePlatform/pytorch.git
+cd pytorch
+# if you are updating an existing checkout
+git submodule sync
+git submodule update --init --recursive
 ```
 4. Hipify the repository
 ```
-python tools/amd_build/build_amd.py
+python3 tools/amd_build/build_amd.py
 ```
+If compiling on NVIDIA GPU, run the following command
+ ```
+ export HIP_PLATFORM=nvcc
+ ```
+
 5. Run the command to install torch
 ```
 RCCL_DIR=/opt/rocm/rccl/lib/cmake/rccl/ hip_DIR=/opt/rocm/hip/cmake/  BUILD_CAFFE2_OPS=0 PATH=/usr/lib/ccache/:$PATH USE_CUDA=OFF python3 setup.py install
 ```
 
+
+## To Run GPU Pytorch Benchmark
+
+0. Clone the repository
+```
+git clone https://github.com/open-gpu-compute/builds.git
+```
+1. Build the image Dockerfile.pytorch . This image install torch, torchvision and  all the dependencies. 
+```
+docker build -t opengc_benchmark_cuda .
+```
+2. Run the docker using the command 
+```
+docker run -it --privileged --rm  --group-add video --shm-size=2gb  --ipc=host --gpus all opengc_benchmark_cuda
+```
+3. Clone the Gpu benchmark repository inside the docker container.
+```
+git clone https://github.com/ryujaehun/pytorch-gpu-benchmark.git
+```
+4. Run the test
+```
+./test.sh
+```
